@@ -1,0 +1,11 @@
+import pandas as pd import numpy as np from sklearn.model_selection import train_test_split from sklearn.preprocessing import StandardScaler, LabelEncoder from sklearn.ensemble import RandomForestClassifier from sklearn.metrics import accuracy_score, classification_report
+
+def load_data(file_path): """Load dataset from a CSV file.""" return pd.read_csv(file_path)
+
+def preprocess_data(df): """Preprocess the dataset: handle missing values, encode categorical features, and scale numerical features.""" df = df.dropna() label_encoder = LabelEncoder() if 'Credit_Score' in df.columns: df['Credit_Score'] = label_encoder.fit_transform(df['Credit_Score'])
+
+import pandas as pd import numpy as np from sklearn.model_selection import train_test_split from sklearn.preprocessing import StandardScaler, LabelEncoder from sklearn.ensemble import RandomForestClassifier from sklearn.metrics import accuracy_score, classification_report
+
+def load_data(file_path): """Load dataset from a CSV file.""" return pd.read_csv(file_path)
+
+def preprocess_data(df): """Preprocess the dataset: handle missing values, encode categorical features, and scale n
