@@ -1,0 +1,30 @@
+from sklearn.datasets import load_iris from sklearn.model_selection import train_test_split from sklearn.preprocessing import StandardScaler from sklearn.linear_model import Perceptron from sklearn.metrics import accuracy_score import numpy as np
+
+Load IRIS dataset
+
+iris = load_iris() X = iris.data[:, [0, 2]]  # Selecting two features for visualization y = iris.target
+
+Convert to binary classification (Class 0 vs Class 1)
+
+y = np.where(y == 2, 1, y)  # Merge class 2 into class 1 to make it binary
+
+Split dataset
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+Standardize features
+
+sc = StandardScaler() X_train = sc.fit_transform(X_train) X_test = sc.transform(X_test)
+
+Train Perceptron model
+
+ppn = Perceptron(max_iter=1000, eta0=0.01, random_state=42) ppn.fit(X_train, y_train)
+
+Predict
+
+y_pred = ppn.predict(X_test)
+
+Evaluate
+
+accuracy = accuracy_score(y_test, y_pred) print(f'Perceptron classification accuracy: {accuracy:.2f}')
+
