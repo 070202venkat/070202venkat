@@ -1,0 +1,28 @@
+import pandas as pd from sklearn.model_selection import train_test_split from sklearn.preprocessing import LabelEncoder from sklearn.naive_bayes import GaussianNB from sklearn.metrics import accuracy_score, classification_report
+
+Sample dataset (Replace with actual dataset)
+
+data = { 'CreditScore': [600, 650, 700, 550, 800, 750, 620, 710, 680, 720], 'Income': [40000, 50000, 60000, 20000, 90000, 80000, 45000, 65000, 58000, 70000], 'LoanAmount': [10000, 20000, 15000, 5000, 30000, 25000, 12000, 18000, 16000, 22000], 'LoanApproved': ['No', 'Yes', 'Yes', 'No', 'Yes', 'Yes', 'No', 'Yes', 'Yes', 'Yes'] }
+
+df = pd.DataFrame(data)
+
+Encode categorical target variable
+
+le = LabelEncoder() df['LoanApproved'] = le.fit_transform(df['LoanApproved'])  # No=0, Yes=1
+
+Split dataset
+
+X = df[['CreditScore', 'Income', 'LoanAmount']] y = df['LoanApproved'] X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+Train Naïve Bayes model
+
+nb = GaussianNB() nb.fit(X_train, y_train)
+
+Predict
+
+y_pred = nb.predict(X_test)
+
+Evaluate
+
+accuracy = accuracy_score(y_test, y_pred) print(f'Naïve Bayes classification accuracy: {accuracy:.2f}') print(classification_report(y_test, y_pred))
+
