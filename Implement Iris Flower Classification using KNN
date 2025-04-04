@@ -1,0 +1,14 @@
+from sklearn.datasets import load_iris from sklearn.model_selection import train_test_split from sklearn.preprocessing import StandardScaler from sklearn.neighbors import KNeighborsClassifier from sklearn.metrics import accuracy_score, classification_report import pandas as pd
+
+def load_data(): """Load the Iris dataset.""" iris = load_iris() df = pd.DataFrame(data=iris.data, columns=iris.feature_names) df['target'] = iris.target return df, iris.target_names
+
+def preprocess_data(df): """Preprocess the dataset: scale features and split data.""" X = df.drop(columns=['target']) y = df['target'] scaler = StandardScaler() X_scaled = scaler.fit_transform(X) return train_test_split(X_scaled, y, test_size=0.2, random_state=42)
+
+def train_knn(X_train, y_train, n_neighbors=3): """Train a K-Nearest Neighbors model.""" model = KNeighborsClassifier(n_neighbors=n_neighbors) model.fit(X_train, y_train) return model
+
+def evaluate_model(model, X_test, y_test, target_names): """Evaluate the KNN model.""" y_pred = model.predict(X_test) accuracy = accuracy_score(y_test, y_pred) print(f'Accuracy: {accuracy:.2f}') print('Classification Report:\n', classification_report(y_test, y_pred, target_names=target_names))
+
+def main(): """Main function to execute the classification process.""" df, target_names = load_data() X_train, X_test, y_train, y_test = preprocess_data(df) model = train_knn(X_train, y_train) evaluate_model(model, X_test, y_test, target_names)
+
+if name == 'main': main()
+
