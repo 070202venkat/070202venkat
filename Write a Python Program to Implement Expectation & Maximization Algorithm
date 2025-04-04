@@ -1,0 +1,26 @@
+import numpy as np from scipy.stats import norm
+
+Generate synthetic data
+
+np.random.seed(42) data = np.concatenate([np.random.normal(5, 1, 100), np.random.normal(10, 1, 100)])
+
+Initialize parameters
+
+mu1, mu2 = 4, 11  # Initial means sigma1, sigma2 = 1, 1  # Initial standard deviations pi1, pi2 = 0.5, 0.5  # Mixing coefficients
+
+EM Algorithm
+
+for _ in range(100):  # Iterate for convergence # Expectation Step: Compute responsibilities r1 = pi1 * norm.pdf(data, mu1, sigma1) r2 = pi2 * norm.pdf(data, mu2, sigma2) r_sum = r1 + r2 r1 /= r_sum r2 /= r_sum
+
+# Maximization Step: Update parameters
+mu1 = np.sum(r1 * data) / np.sum(r1)
+mu2 = np.sum(r2 * data) / np.sum(r2)
+sigma1 = np.sqrt(np.sum(r1 * (data - mu1) ** 2) / np.sum(r1))
+sigma2 = np.sqrt(np.sum(r2 * (data - mu2) ** 2) / np.sum(r2))
+pi1 = np.mean(r1)
+pi2 = np.mean(r2)
+
+Output the final estimated parameters
+
+print(f"Estimated Means: {mu1:.2f}, {mu2:.2f}") print(f"Estimated Standard Deviations: {sigma1:.2f},
+
