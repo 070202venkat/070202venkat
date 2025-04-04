@@ -1,0 +1,45 @@
+import numpy as np
+
+def find_s_algorithm(training_data, attributes):
+    """
+    Implement the FIND-S algorithm
+    
+    Parameters:
+    training_data (list): List of training examples, each example is a dictionary
+    attributes (list): List of attribute names
+    
+    Returns:
+    dict: The most specific hypothesis
+    """
+    # Initialize hypothesis to the most specific (all NULL/0)
+    hypothesis = {attr: '0' for attr in attributes}
+    
+    for example in training_data:
+        # Only consider positive examples (assuming 'Yes' indicates positive)
+        if example['EnjoySport'] == 'Yes':
+            for attr in attributes:
+                if hypothesis[attr] == '0':  # First positive example
+                    hypothesis[attr] = example[attr]
+                elif hypothesis[attr] != example[attr]:
+                    hypothesis[attr] = '?'  # Generalize
+                    
+    return hypothesis
+
+# Example from Tom Mitchell's book
+training_data = [
+    {'Sky': 'Sunny', 'AirTemp': 'Warm', 'Humidity': 'Normal', 'Wind': 'Strong', 'Water': 'Warm', 'Forecast': 'Same', 'EnjoySport': 'Yes'},
+    {'Sky': 'Sunny', 'AirTemp': 'Warm', 'Humidity': 'High', 'Wind': 'Strong', 'Water': 'Warm', 'Forecast': 'Same', 'EnjoySport': 'Yes'},
+    {'Sky': 'Rainy', 'AirTemp': 'Cold', 'Humidity': 'High', 'Wind': 'Strong', 'Water': 'Warm', 'Forecast': 'Change', 'EnjoySport': 'No'},
+    {'Sky': 'Sunny', 'AirTemp': 'Warm', 'Humidity': 'High', 'Wind': 'Strong', 'Water': 'Cool', 'Forecast': 'Change', 'EnjoySport': 'Yes'}
+]
+
+attributes = ['Sky', 'AirTemp', 'Humidity', 'Wind', 'Water', 'Forecast']
+
+# Run the algorithm
+hypothesis = find_s_algorithm(training_data, attributes)
+
+# Display results
+print("Initial most specific hypothesis:")
+print({attr: '0' for attr in attributes})
+print("\nFinal hypothesis after FIND-S:")
+print(hypothesis)
